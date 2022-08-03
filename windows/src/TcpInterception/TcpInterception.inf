@@ -1,0 +1,57 @@
+;
+; TcpInterception INF file
+;
+
+[Version]
+    Signature   = "$Windows NT$"
+    Class       = WFPCALLOUTS
+    ClassGuid   = {57465043-616C-6C6F-7574-5F636C617373}
+    Provider    = %ManufacturerName%
+    CatalogFile = "TcpInterception.cat"
+    PnpLockdown = 1
+    DriverVer   =
+
+[SourceDisksNames]
+    1 = %DiskName%
+
+[SourceDisksFiles]
+    TcpInterception.sys = 1
+
+[DestinationDirs]
+    DefaultDestDir = 12 ; %windir%\system32\drivers
+    TcpInterception.DriverFiles = 12 ; %windir%\system32\drivers
+
+[DefaultInstall.NT]
+    OptionDesc = %Description%
+    CopyFiles  = TcpInterception.CopyDriverFiles
+
+[DefaultInstall.NT.Services]
+    AddService = %ServiceName%,,TcpInterception.Service
+
+[DefaultUninstall.NT]
+    DelFiles = TcpInterception.DeleteDriverFiles
+
+[DefaultUninstall.NT.Services]
+    DelService = TcpInterception,0x200 ; SPSVCINST_STOPSERVICE
+
+[TcpInterception.CopyDriverFiles]
+TcpInterception.sys,,,0x00000040 ; COPYFLG_OVERWRITE_OLDER_ONLY
+
+[TcpInterception.DeleteDriverFiles]
+TcpInterception.sys,,,0x00000040 ; COPYFLG_OVERWRITE_OLDER_ONLY
+
+[TcpInterception.Service]
+    DisplayName   = %ServiceName%
+    Description   = %ServiceDesc%
+    ServiceType   = 1  ; SERVICE_KERNEL_DRIVER
+    StartType     = 3  ; SERVICE_DEMAND_START
+    ErrorControl  = 1  ; SERVICE_ERROR_NORMAL
+    ServiceBinary = %12%\TcpInterception.sys
+
+[Strings]
+ManufacturerName="Apriorit"
+ClassName=""
+DiskName="TcpInterception Source Disk"
+Description  = "TCP Interception Driver"
+ServiceName  = "TcpInterception"
+ServiceDesc  = "TcpInterception"

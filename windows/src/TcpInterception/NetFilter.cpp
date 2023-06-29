@@ -246,7 +246,7 @@ static void ProcessTransportData(const FWPS_INCOMING_VALUES0* inFixedValues,
     FWPS_CLASSIFY_OUT0* classifyOut)
 {
     // Skip packet not connected to our target port 
-    if (_byteswap_ushort(inFixedValues->incomingValue[FWPS_FIELD_OUTBOUND_TRANSPORT_V4_IP_REMOTE_PORT].value.uint16) == 6044)
+    if (inFixedValues->incomingValue[FWPS_FIELD_OUTBOUND_TRANSPORT_V4_IP_REMOTE_PORT].value.uint16 != 6044)
     {
         return;
     }
